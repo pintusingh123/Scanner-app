@@ -1,0 +1,65 @@
+# ======================
+# Python
+# ======================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual Environment
+venv/
+env/
+ENV/
+.env/
+
+# ======================
+# Django
+# ======================
+db.sqlite3
+*.log
+local_settings.py
+
+media/
+staticfiles/
+static/
+
+# Django migrations (optional - only if you want clean repo)
+# */migrations/*.py
+# */migrations/*.pyc
+__pycache__/
+
+# ======================
+# Environment Variables
+# ======================
+.env
+
+# ======================
+# IDE / Editor
+# ======================
+.vscode/
+.idea/
+*.swp
+
+# ======================
+# OS Files
+# ======================
+.DS_Store
+Thumbs.db
+
+# ======================
+# Node.js (if frontend exists like React)
+# ======================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# React / frontend build
+build/
+dist/
+
+# ======================
+# Static build (production)
+# ======================
+staticfiles/
