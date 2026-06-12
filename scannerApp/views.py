@@ -3,7 +3,7 @@ from .models import QRCode
 import qrcode
 import cv2
 import uuid
-
+import os
 from django.core.files.storage import FileSystemStorage
 from io import BytesIO
 from django.core.files.base import ContentFile
@@ -39,8 +39,9 @@ def generate_qr(request):
         qr.save(qr_image_io, format='PNG')
         qr_image_io.seek(0)
 
-        qr_storage_path = settings.MEDIA_ROOT / 'qr_codes'
-        qr_storage_path.mkdir(parents=True, exist_ok=True)
+        qr_storage_path = os.path.join(settings.MEDIA_ROOT, 'qr_codes')
+
+        os.makedirs(qr_storage_path, exist_ok=True)
 
         fs = FileSystemStorage(
             location=qr_storage_path,
@@ -117,7 +118,7 @@ def scan_qr(request):
 
                             result = "Scan Success: Valid QR Code for the provided mobile number."
 
-                            qr_image_path = settings.MEDIA_ROOT / 'qr_codes' / qr_entry.qr_image
+                            qr_image_path = os.path.join(settings.MEDIA_ROOT, 'qr_codes', qr_entry.qr_image)
 
                             # Delete generated QR image
                             if qr_image_path.exists():
