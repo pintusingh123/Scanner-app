@@ -118,12 +118,11 @@ def scan_qr(request):
 
                             result = "Scan Success: Valid QR Code for the provided mobile number."
 
-                            qr_image_path = os.path.join(settings.MEDIA_ROOT, 'qr_codes', qr_entry.qr_image)
+                            qr_image_path = Path(settings.MEDIA_ROOT) / 'qr_codes' / qr_entry.qr_image
 
-                            # Delete generated QR image
                             if qr_image_path.exists():
-                               qr_image_path.unlink()
-                               
+                                qr_image_path.unlink()
+
                             # Delete uploaded image
                             if image_path.exists():
                                 image_path.unlink()
