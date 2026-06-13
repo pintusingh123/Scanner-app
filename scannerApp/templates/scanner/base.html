@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
     <!-- Navbar -->
     <nav class="bg-blue-700 text-white shadow-lg">
@@ -43,7 +43,7 @@
         </div>
     </nav>
 
-    <!-- Main Heading -->
+    <!-- Header Section -->
     <div class="text-center py-10">
         <h1 class="text-4xl font-bold text-gray-800">
             GS Petrol Pump Payment System
@@ -54,11 +54,60 @@
         </p>
     </div>
 
-    <!-- Content -->
-    <div class="max-w-6xl mx-auto px-4">
+    <!-- Main Content -->
+    <div class="max-w-6xl mx-auto px-4 flex-1">
         {% block content %}
         {% endblock content %}
     </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-300 mt-12">
+        <div class="max-w-6xl mx-auto px-6 py-10 grid md:grid-cols-3 gap-8">
+
+            <!-- About -->
+            <div>
+                <h2 class="text-xl font-bold text-white mb-3">
+                    GS Petrol Pump
+                </h2>
+                <p class="text-sm leading-6">
+                    A modern QR-based fuel payment system built using Django.
+                    Fast, secure and contactless experience for customers.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h2 class="text-xl font-bold text-white mb-3">
+                    Quick Links
+                </h2>
+
+                <ul class="space-y-2 text-sm">
+                    <li><a href="{% url 'home' %}" class="hover:text-white">Home</a></li>
+                    <li><a href="{% url 'generateqr' %}" class="hover:text-white">Generate QR</a></li>
+                    <li><a href="{% url 'scanqr' %}" class="hover:text-white">Scan QR</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h2 class="text-xl font-bold text-white mb-3">
+                    Developer Info
+                </h2>
+
+                <p class="text-sm">
+                    👨‍💻 Built by: <span class="text-white font-semibold">Your Name</span><br>
+                    📧 Email: yourmail@example.com<br>
+                    🌐 Project: Django QR Scanner System
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="border-t border-gray-700 text-center py-4 text-sm">
+            © 2026 GS Petrol Pump | All Rights Reserved
+        </div>
+    </footer>
 
 </body>
 </html>
