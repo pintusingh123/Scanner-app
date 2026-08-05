@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
  "scripts": {
-    "build-css": "tailwindcss -i ./scannerApp/static/css/input.css -o ./scannerApp/static/css/output.css --watch"
+    "build-css": "tailwindcss -i ./scannerApp/static/css/input.css -o ./scannerApp/static/css/output.css --minify"
   },
   "repository": {
     "type": "git",
