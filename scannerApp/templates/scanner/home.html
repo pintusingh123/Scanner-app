@@ -9,31 +9,31 @@ Home - GS Petrol Pump
 <div class="space-y-16 py-4">
 
     <!-- Hero Banner Section -->
-    <div class="relative rounded-3xl bg-gradient-to-b from-slate-800/80 to-slate-900/90 border border-slate-700/60 p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl backdrop-blur-xl">
+    <div class="relative rounded-3xl hero-banner p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl">
         <!-- Glow accents inside hero -->
         <div class="absolute -right-20 -top-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 max-w-3xl space-y-6">
             
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold tracking-wide uppercase">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full hero-badge text-xs font-bold tracking-wide uppercase font-heading">
                 <i class="fa-solid fa-bolt text-xs"></i> Contactless Fuel Payments
             </div>
 
-            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-                Accelerate Fueling with <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500 bg-clip-text text-transparent">Instant QR Tech</span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight hero-title font-heading leading-tight">
+                Accelerate Fueling with <span class="text-current font-heading">Instant QR Tech</span>
             </h1>
 
-            <p class="text-base sm:text-lg text-slate-300 font-normal leading-relaxed">
+            <p class="text-base sm:text-lg hero-lead font-body leading-relaxed">
                 Experience seamless, contactless payments at GS Petrol Pump. Generate dynamic encrypted QR codes, scan instantly using OpenCV computer vision, and streamline station operations.
             </p>
 
             <div class="flex flex-wrap items-center gap-4 pt-4">
-                <a href="{% url 'generateqr' %}" class="px-6 py-3.5 rounded-xl font-bold text-sm text-slate-950 bg-gradient-to-r from-cyan-400 to-sky-300 hover:from-cyan-300 hover:to-sky-200 active:scale-95 shadow-lg shadow-cyan-500/25 transition duration-200 flex items-center gap-2">
+                <a href="{% url 'generateqr' %}" class="px-6 py-3.5 rounded-xl font-bold text-sm btn-primary active:scale-95 shadow-lg transition duration-200 flex items-center gap-2">
                     <i class="fa-solid fa-qrcode"></i> Generate Payment QR
                 </a>
 
-                <a href="{% url 'scanqr' %}" class="px-6 py-3.5 rounded-xl font-bold text-sm text-slate-100 bg-slate-800 hover:bg-slate-700/80 border border-slate-700 active:scale-95 transition duration-200 flex items-center gap-2">
+                <a href="{% url 'scanqr' %}" class="px-6 py-3.5 rounded-xl font-bold text-sm btn-secondary active:scale-95 transition duration-200 flex items-center gap-2">
                     <i class="fa-solid fa-camera"></i> Scan QR Code
                 </a>
             </div>
