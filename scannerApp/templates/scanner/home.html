@@ -1,35 +1,167 @@
- {% extends "scanner/base.html" %}
+{% extends "scanner/base.html" %}
 
 {% block title %}
-Home
+Home - GS Petrol Pump
 {% endblock title %}
 
 {% block content %}
 
-<div class="grid md:grid-cols-2 gap-8">
+<div class="space-y-16 py-4">
 
-    <div class="bg-white rounded-xl shadow-md p-8">
-        <h2 class="text-2xl font-bold text-black mb-4">
-            Welcome
-        </h2>
+    <!-- Hero Banner Section -->
+    <div class="relative rounded-3xl bg-gradient-to-b from-slate-800/80 to-slate-900/90 border border-slate-700/60 p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl backdrop-blur-xl">
+        <!-- Glow accents inside hero -->
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 -bottom-20 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
 
-        <p class="text-gray-600">
-            Generate and scan QR codes for petrol pump payments.
-            This system provides secure and instant digital transactions.
-        </p>
+        <div class="relative z-10 max-w-3xl space-y-6">
+            
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold tracking-wide uppercase">
+                <i class="fa-solid fa-bolt text-xs"></i> Contactless Fuel Payments
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                Accelerate Fueling with <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500 bg-clip-text text-transparent">Instant QR Tech</span>
+            </h1>
+
+            <p class="text-base sm:text-lg text-slate-300 font-normal leading-relaxed">
+                Experience seamless, contactless payments at GS Petrol Pump. Generate dynamic encrypted QR codes, scan instantly using OpenCV computer vision, and streamline station operations.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 pt-4">
+                <a href="{% url 'generateqr' %}" class="px-6 py-3.5 rounded-xl font-bold text-sm text-slate-950 bg-gradient-to-r from-cyan-400 to-sky-300 hover:from-cyan-300 hover:to-sky-200 active:scale-95 shadow-lg shadow-cyan-500/25 transition duration-200 flex items-center gap-2">
+                    <i class="fa-solid fa-qrcode"></i> Generate Payment QR
+                </a>
+
+                <a href="{% url 'scanqr' %}" class="px-6 py-3.5 rounded-xl font-bold text-sm text-slate-100 bg-slate-800 hover:bg-slate-700/80 border border-slate-700 active:scale-95 transition duration-200 flex items-center gap-2">
+                    <i class="fa-solid fa-camera"></i> Scan QR Code
+                </a>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-3 gap-4 pt-8 border-t border-slate-700/60 max-w-lg">
+                <div>
+                    <div class="text-2xl font-extrabold text-white">100%</div>
+                    <div class="text-xs text-slate-400">Contactless</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-extrabold text-cyan-400">&lt; 1s</div>
+                    <div class="text-xs text-slate-400">OpenCV Scan</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-extrabold text-emerald-400">Secure</div>
+                    <div class="text-xs text-slate-400">Verification</div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
-    <div class="bg-white rounded-xl shadow-md p-8">
-        <h2 class="text-2xl font-bold text-black mb-4">
-            Features
-        </h2>
+    <!-- Feature Cards Grid -->
+    <div>
+        <div class="text-center max-w-2xl mx-auto space-y-3 mb-10">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Designed for Fast & Frictionless Station Workflows
+            </h2>
+            <p class="text-sm text-slate-400">
+                Built with modern Python Django backend and computer vision scanning for top-tier reliability.
+            </p>
+        </div>
 
-        <ul class="space-y-3 text-gray-700">
-            <li>✅ Generate Payment QR</li>
-            <li>✅ Scan QR Instantly</li>
-            <li>✅ Secure Transactions</li>
-            <li>✅ Easy to Use</li>
-        </ul>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Card 1 -->
+            <div class="group bg-slate-800/50 hover:bg-slate-800/80 border border-slate-700/60 hover:border-cyan-500/50 rounded-2xl p-6 transition duration-300 space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Dynamic Generation</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Generate unique, single-use payment QR codes tied to customer mobile numbers in milliseconds.
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="group bg-slate-800/50 hover:bg-slate-800/80 border border-slate-700/60 hover:border-emerald-500/50 rounded-2xl p-6 transition duration-300 space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-expand"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">OpenCV Scanner</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Upload receipt photos or QR captures for computer vision image decoding and match verification.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="group bg-slate-800/50 hover:bg-slate-800/80 border border-slate-700/60 hover:border-blue-500/50 rounded-2xl p-6 transition duration-300 space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-xl group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-shield-virus"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Fraud Protection</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Automatic one-time use consumption prevents duplicate redemptions and ensures transaction integrity.
+                </p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="group bg-slate-800/50 hover:bg-slate-800/80 border border-slate-700/60 hover:border-amber-500/50 rounded-2xl p-6 transition duration-300 space-y-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition duration-300">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">Mobile Optimized</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    Responsive, high-contrast UI tailored for mobile devices used by station operators on duty.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- 3-Step Visual Workflow -->
+    <div class="bg-slate-950/60 border border-slate-800 rounded-3xl p-8 sm:p-10 space-y-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+            <div>
+                <h2 class="text-xl font-bold text-white">How The System Works</h2>
+                <p class="text-xs text-slate-400">Complete transaction cycle in 3 simple steps</p>
+            </div>
+            <a href="{% url 'generateqr' %}" class="text-xs font-semibold text-cyan-400 hover:text-cyan-300 flex items-center gap-1">
+                Start Process <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="flex gap-4">
+                <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 font-extrabold text-sm flex items-center justify-center shrink-0 border border-cyan-500/30">
+                    1
+                </div>
+                <div class="space-y-1">
+                    <h4 class="text-sm font-bold text-white">Enter Transaction & Mobile</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Fill customer 10-digit mobile number along with fuel transaction details or UPI payload.</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <div class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 font-extrabold text-sm flex items-center justify-center shrink-0 border border-blue-500/30">
+                    2
+                </div>
+                <div class="space-y-1">
+                    <h4 class="text-sm font-bold text-white">Generate & Display QR</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">High-resolution QR code is dynamically rendered for customer scan or instant download.</p>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-extrabold text-sm flex items-center justify-center shrink-0 border border-emerald-500/30">
+                    3
+                </div>
+                <div class="space-y-1">
+                    <h4 class="text-sm font-bold text-white">Scan & Auto-Validate</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Operator scans or uploads QR image. OpenCV verifies phone match and consumes token safely.</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </div>

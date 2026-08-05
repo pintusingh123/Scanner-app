@@ -1,66 +1,164 @@
-{% extends "scanner/base.html" %} {% block title %} Scan QR {% endblock title %}
+{% extends "scanner/base.html" %}
+
+{% block title %}
+Scan QR - GS Petrol Pump
+{% endblock title %}
+
 {% block content %}
 
-<div class="max-w-xl mx-auto">
-  <div class="bg-white shadow-lg rounded-xl p-8">
-    <h2 class="text-3xl font-bold text-center text-green-700 mb-6">
-      Scan QR Code
-    </h2>
+<div class="max-w-2xl mx-auto space-y-8 py-4">
 
-    <form
-      action="{% url 'scanqr'  %}"
-      method="post"
-      enctype="multipart/form-data"
-      class="space-y-6"
-    >
-      {% csrf_token %}
-
-      <!-- Mobile Number -->
-      <div>
-        <label class="block text-gray-700 font-semibold mb-2">
-          Mobile Number
-        </label>
-
-        <input
-          type="text"
-          name="mobile_number"
-          placeholder="Enter 10-digit mobile number"
-          required
-          pattern="\d{10}"
-          class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-        />
-      </div>
-
-      <!-- QR Image Upload -->
-      <div>
-        <label class="block text-gray-700 font-semibold mb-2">
-          Upload QR Image
-        </label>
-
-        <div
-          class="border-2 border-dashed border-green-300 rounded-xl p-6 bg-green-50"
-        >
-          <input
-            type="file"
-            name="qr_image"
-            id="qr-input"
-            accept="image/*"
-            required
-            class="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-green-600 file:text-white hover:file:bg-green-700 cursor-pointer"
-          />
+    <!-- Page Header Title -->
+    <div class="text-center space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+            <i class="fa-solid fa-camera"></i> OpenCV Vision Scanner
         </div>
-      </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Scan & Verify Payment QR
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-400">
+            Upload the customer's QR image to decode, match mobile identity, and complete fuel verification.
+        </p>
+    </div>
 
-      <!-- Submit Button -->
-      <button
-        type="submit"
-        class="w-full bg-green-600 text-white py-3 rounded-lg font-semibold text-lg shadow-md hover:bg-green-700 transition duration-300"
-      >
-        Scan QR Code
-      </button>
-    </form>
-    <h2>{{result}}</h2>
-  </div>
+    <!-- Main Card -->
+    <div class="bg-slate-800/60 border border-slate-700/70 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-8">
+        
+        <!-- Mobile Error Alert -->
+        {% if error %}
+        <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center gap-3 text-rose-300 text-sm">
+            <i class="fa-solid fa-circle-exclamation text-base shrink-0"></i>
+            <div>{{ error }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Form -->
+        <form
+            action="{% url 'scanqr' %}"
+            method="post"
+            enctype="multipart/form-data"
+            class="space-y-6"
+        >
+            {% csrf_token %}
+
+            <!-- Mobile Number Field -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+                    Customer Mobile Number
+                </label>
+                <div class="relative flex items-center">
+                    <div class="absolute left-4 text-slate-400 text-sm font-semibold flex items-center gap-1 pointer-events-none">
+                        <i class="fa-solid fa-phone text-xs text-slate-500"></i>
+                        <span>+91</span>
+                    </div>
+                    <input
+                        type="text"
+                        name="mobile_number"
+                        placeholder="Enter 10-digit mobile number"
+                        required
+                        pattern="\d{10}"
+                        maxlength="10"
+                        class="w-full bg-slate-900/90 border border-slate-700/80 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 rounded-xl pl-16 pr-4 py-3.5 text-sm text-white placeholder-slate-500 transition duration-200 outline-none font-medium"
+                    >
+                </div>
+            </div>
+
+            <!-- Drag & Drop Upload Zone -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+                    Upload QR Image File
+                </label>
+
+                <div 
+                    id="dropzone"
+                    class="relative border-2 border-dashed border-slate-700 hover:border-emerald-500/70 bg-slate-900/60 hover:bg-slate-900/90 rounded-2xl p-8 text-center transition duration-200 cursor-pointer group"
+                >
+                    <input
+                        type="file"
+                        name="qr_image"
+                        id="qr-input"
+                        accept="image/*"
+                        required
+                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                        onchange="handleFileSelect(this)"
+                    />
+
+                    <div class="space-y-3 pointer-events-none">
+                        <div class="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto text-xl group-hover:scale-110 transition duration-200">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-bold text-white group-hover:text-emerald-400 transition">
+                                Click or drag & drop QR image here
+                            </p>
+                            <p class="text-xs text-slate-500 mt-1" id="file-name-label">
+                                Supports PNG, JPG, JPEG or WebP formats
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+                type="submit"
+                class="w-full py-4 px-6 rounded-xl font-bold text-sm text-slate-950 bg-gradient-to-r from-emerald-400 to-teal-300 hover:from-emerald-300 hover:to-teal-200 active:scale-[0.99] shadow-lg shadow-emerald-500/25 transition duration-200 flex items-center justify-center gap-2 cursor-pointer"
+            >
+                <i class="fa-solid fa-expand"></i> Scan & Verify QR Code
+            </button>
+        </form>
+
+        <!-- Result Status Banner -->
+        {% if result %}
+        <div class="pt-6 border-t border-slate-700/70">
+            {% if "Success" in result %}
+            <!-- Success Card -->
+            <div class="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 text-lg border border-emerald-500/30">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="space-y-1">
+                    <h3 class="text-base font-bold text-emerald-400">Verification Successful</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">{{ result }}</p>
+                    <p class="text-[11px] text-slate-400 pt-2 flex items-center gap-1">
+                        <i class="fa-solid fa-shield-halved text-emerald-400"></i> Token invalidated for single-use security.
+                    </p>
+                </div>
+            </div>
+            {% else %}
+            <!-- Failure / Error Card -->
+            <div class="p-6 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 text-lg border border-rose-500/30">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="space-y-1">
+                    <h3 class="text-base font-bold text-rose-400">Verification Failed</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">{{ result }}</p>
+                    <p class="text-[11px] text-slate-400 pt-2">
+                        Please check if the QR image is clear and the mobile number matches the generated code.
+                    </p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+    </div>
+
 </div>
+
+<script>
+    function handleFileSelect(input) {
+        const label = document.getElementById('file-name-label');
+        if (input.files && input.files[0]) {
+            label.textContent = 'Selected: ' + input.files[0].name;
+            label.classList.add('text-emerald-400', 'font-semibold');
+        } else {
+            label.textContent = 'Supports PNG, JPG, JPEG or WebP formats';
+            label.classList.remove('text-emerald-400', 'font-semibold');
+        }
+    }
+</script>
 
 {% endblock content %}

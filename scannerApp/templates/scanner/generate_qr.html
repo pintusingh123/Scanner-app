@@ -1,70 +1,140 @@
- {% extends "scanner/base.html" %}
+{% extends "scanner/base.html" %}
 
 {% block title %}
-Generate QR
+Generate QR - GS Petrol Pump
 {% endblock title %}
 
 {% block content %}
 
-<div class="max-w-xl mx-auto">
+<div class="max-w-2xl mx-auto space-y-8 py-4">
 
-    <div class="bg-white shadow-lg rounded-xl p-8">
+    <!-- Page Header Title -->
+    <div class="text-center space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Payment Generator
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Generate Fuel Payment QR
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-400">
+            Create an encrypted single-use QR code for fueling transactions and instant scan verification.
+        </p>
+    </div>
 
-        <h2 class="text-3xl font-bold text-center text-blue-700 mb-6">
-            Generate QR Code
-        </h2>
+    <!-- Main Card -->
+    <div class="bg-slate-800/60 border border-slate-700/70 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-8">
+        
+        <!-- Error Message Alert -->
+        {% if error %}
+        <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 flex items-center gap-3 text-rose-300 text-sm">
+            <i class="fa-solid fa-circle-exclamation text-base shrink-0"></i>
+            <div>{{ error }}</div>
+        </div>
+        {% endif %}
 
-         <form action="{% url 'generateqr'  %}" method="post" class="space-y-7">
+        <!-- Form -->
+        <form action="{% url 'generateqr' %}" method="post" class="space-y-6">
             {% csrf_token %}
 
-            <!-- Mobile Number -->
-            <div>
-                <label class="block text-gray-700 font-semibold mb-2">
-                    Mobile Number
+            <!-- Mobile Number Field -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+                    Customer Mobile Number
                 </label>
-
-                <input
-                    type="text"
-                    name="mobile_number"
-                    placeholder="Enter 10-digit mobile number"
-                    required
-                    pattern="\d{10}"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
+                <div class="relative flex items-center">
+                    <div class="absolute left-4 text-slate-400 text-sm font-semibold flex items-center gap-1 pointer-events-none">
+                        <i class="fa-solid fa-phone text-xs text-slate-500"></i>
+                        <span>+91</span>
+                    </div>
+                    <input
+                        type="text"
+                        name="mobile_number"
+                        placeholder="Enter 10-digit mobile number"
+                        required
+                        pattern="\d{10}"
+                        maxlength="10"
+                        class="w-full bg-slate-900/90 border border-slate-700/80 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 rounded-xl pl-16 pr-4 py-3.5 text-sm text-white placeholder-slate-500 transition duration-200 outline-none font-medium"
+                    >
+                </div>
+                <p class="text-[11px] text-slate-500">Must be exactly 10 numeric digits</p>
             </div>
 
-            <!-- QR Data -->
-            <div class="my-2">
-                <label class="block text-gray-700 font-semibold mb-">
-                    QR Content
+            <!-- QR Content / Payload -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider">
+                    QR Payload / Payment Data
                 </label>
-
-                <input
-                    name="qr_data"
-                    type="text"
-                    placeholder="Enter text, payment details, UPI ID, or any data for QR generation"
-                    required
-                    class="w-full border border-gray-300 rounded-lg px-4 py-3  resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <div class="relative flex items-center">
+                    <div class="absolute left-4 text-slate-500 pointer-events-none">
+                        <i class="fa-solid fa-receipt text-sm"></i>
+                    </div>
+                    <input
+                        name="qr_data"
+                        type="text"
+                        placeholder="Enter fuel amount, transaction ID, UPI reference or text"
+                        required
+                        class="w-full bg-slate-900/90 border border-slate-700/80 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 rounded-xl pl-11 pr-4 py-3.5 text-sm text-white placeholder-slate-500 transition duration-200 outline-none font-medium"
+                    >
+                </div>
             </div>
 
             <!-- Submit Button -->
             <button
                 type="submit"
-                class="w-full my-6 bg-blue-700 text-white py-3 rounded-lg font-semibold text-lg hover:bg-blue-800 transition duration-300"
+                class="w-full py-4 px-6 rounded-xl font-bold text-sm text-slate-950 bg-gradient-to-r from-cyan-400 to-sky-300 hover:from-cyan-300 hover:to-sky-200 active:scale-[0.99] shadow-lg shadow-cyan-500/25 transition duration-200 flex items-center justify-center gap-2 cursor-pointer"
             >
-                Generate QR Code
+                <i class="fa-solid fa-qrcode"></i> Generate Encrypted QR Code
             </button>
 
         </form>
-        <!-- img of qr code -->
-       <div>
+
+        <!-- Result Box (If Generated) -->
         {% if qr_image_url %}
-        <h2>Your QR Code:</h2>
-        <img src="{{ qr_image_url }}" alt="Generated QR code ">
-        <br>
-        <a href="{{ qr_image_url }}" download >Save QR</a>
+        <div class="pt-8 border-t border-slate-700/70 space-y-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Generated QR Code</h3>
+                </div>
+                <span class="text-xs text-emerald-400 font-semibold bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/30">
+                    Ready for Scan
+                </span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-8 bg-slate-900/90 border border-slate-700/80 rounded-2xl p-6">
+                <!-- QR Code Display Card -->
+                <div class="bg-white p-4 rounded-xl shadow-xl border border-slate-200 shrink-0">
+                    <img src="{{ qr_image_url }}" alt="Generated QR Code" class="w-44 h-44 object-contain">
+                </div>
+
+                <div class="space-y-4 text-center sm:text-left">
+                    <div>
+                        <h4 class="text-base font-bold text-white">QR Code Created Successfully</h4>
+                        <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                            This code has been saved to your session media storage and is ready to be scanned at the station terminal.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-3 justify-center sm:justify-start">
+                        <a 
+                            href="{{ qr_image_url }}" 
+                            download="GS_Petrol_QR.png"
+                            class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-md shadow-emerald-600/20 transition duration-200 flex items-center gap-2"
+                        >
+                            <i class="fa-solid fa-download"></i> Save QR Image
+                        </a>
+                        <a 
+                            href="{% url 'generateqr' %}" 
+                            class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition duration-200 flex items-center gap-2"
+                        >
+                            <i class="fa-solid fa-rotate-left"></i> Create Another
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
         {% endif %}
-       </div>
+
     </div>
 
 </div>
